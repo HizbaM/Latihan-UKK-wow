@@ -1,3 +1,11 @@
+<?php
+require_once 'koneksi.php';
+
+// Query untuk mendapatkan data beasiswa akademik dan non-akademik
+$query = "SELECT nama_kamar, harga FROM jenis_kamar";
+$result = mysqli_query($connect, $query);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,6 +31,49 @@
         </div>
       </div>
     </nav>
+
+    <div class="container mt-5">
+      <h1 class="text-center mb-4">Daftar Harga</h1>
+      <div class="row justify-content-center">
+        <div class="col-10">
+            <div class="card shadow border-0">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Jenis Kamar</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-4">
+                        <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card shadow-sm border-0 h-100">
+                                    <div class="card-body p-4">
+                                        <!-- Ikon Beasiswa -->
+                                        <div class="text-center mb-3">
+                                            <img src="images/56371e22f32242c93c3c720c7565bb3c.jpg" alt="Beasiswa Icon">
+                                        </div>
+
+                                        <!-- Jenis Beasiswa -->
+                                        <h5 class="card-title fw-bold text-black text-center">
+                                            <?php echo htmlspecialchars($row['nama_kamar']); ?>
+                                        </h5>
+
+                                        <!-- Keterangan -->
+                                        <p class="card-text text-muted text-center">
+                                            <?php echo htmlspecialchars($row['harga']); ?>
+                                        </p>
+                                    </div>
+                                    <div class="card-footer bg-light text-end">
+                                        <a href="#" class="btn btn-outline-primary btn-sm">Lihat Detail</a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
     
 </body>
 </html>
