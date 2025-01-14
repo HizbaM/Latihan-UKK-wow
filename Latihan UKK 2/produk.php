@@ -44,7 +44,7 @@ $result = mysqli_query($connect, $query);
         <div class="col-10">
             <div class="card shadow border-0">
                 <div class="card-header bg-success text-white">
-                    <h5 class="mb-0">Jenis Beasiswa</h5>
+                    <h5 class="mb-0">Jenis Kamar</h5>
                 </div>
                 <div class="card-body">
                     <div class="row g-4">
