@@ -14,6 +14,8 @@ if (isset($_POST['kirim'])) {
     $queryHarga = "SELECT harga FROM jenis_kamar WHERE id = $id_jenis_kamar";
     $resultHarga = $connect->query($queryHarga);
 
+    //menghitung harga total
+
     if ($resultHarga && $resultHarga->num_rows > 0) {
         $row = $resultHarga->fetch_assoc();
         $harga_kamar = $row['harga'];
@@ -62,26 +64,57 @@ if (isset($_POST['kirim'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Formulir Pemesanan</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script>
-        function calculateTotal() {
-            const durasiPemesanan = parseInt(document.getElementById('durasiPemesanan').value) || 0;
-            const idJenisKamar = document.getElementById('jenisKamar');
-            const selectedOption = idJenisKamar.options[idJenisKamar.selectedIndex];
-            const hargaKamar = parseInt(selectedOption.getAttribute('data-harga')) || 0;
-            const breakfast = document.getElementById('breakfast').checked ? 80000 : 0;
+<script>
+// Fungsi untuk menghitung total harga
+function calculateTotal() {
+    // Ambil nilai durasi pemesanan
+    const durasiPemesanan = parseInt(document.getElementById('durasiPemesanan').value) || 0;
 
-            let totalHarga = hargaKamar * durasiPemesanan + breakfast;
+    // Ambil data harga dari jenis kamar yang dipilih
+    const jenisKamarElement = document.getElementById('jenisKamar');
+    const selectedOption = jenisKamarElement.options[jenisKamarElement.selectedIndex];
+    const hargaKamar = parseInt(selectedOption.getAttribute('data-harga')) || 0;
 
-            // Diskon 10% jika durasi lebih dari 3 hari
-            if (durasiPemesanan > 3) {
-                totalHarga *= 0.9;
-            }
+    // Cek apakah sarapan dipilih
+    const breakfast = document.getElementById('breakfast').checked ? 80000 : 0;
 
-            document.getElementById('totalHarga').value = `Rp ${totalHarga.toLocaleString('id-ID')}`;
-        }
-    </script>
+    // Hitung total harga
+    let totalHarga = hargaKamar * durasiPemesanan + breakfast;
+
+    // Terapkan diskon 10% jika durasi lebih dari 3 hari
+    if (durasiPemesanan > 3) {
+        totalHarga *= 0.9;
+    }
+
+    // Tampilkan total harga di input dengan format mata uang Indonesia
+    document.getElementById('totalHarga').value = `Rp ${totalHarga.toLocaleString('id-ID')}`;
+
+    // Tampilkan container total harga
+    document.getElementById('hargaContainer').style.display = 'block';
+}
+
+// Tambahkan event listener pada tombol "Hitung Total Harga"
+document.getElementById('hitungHarga').addEventListener('click', calculateTotal);
+
+</script>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg bg-success navbar-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Hotel Bereketek</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavigasi" aria-controls="navbarNavigasi" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavigasi">
+          <div class="navbar-nav">
+            <a class="nav-link" href="produk.php">Produk</a>
+            <a class="nav-link active" aria-current="page" href="pesan_kamar.php">Pesan Hotel</a>
+            <a class="nav-link" href="daftar_harga.php">Daftar Harga</a>
+            <a class="nav-link" href="tentang_kami.php">Tentang Kami</a>
+          </div>
+        </div>
+      </div>
+    </nav>
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-8">
@@ -134,16 +167,17 @@ if (isset($_POST['kirim'])) {
                         </div>
                         <div class="mb-3">
                             <label for="durasiPemesanan" class="form-label">Durasi Pemesanan (hari)</label>
-                            <input type="number" class="form-control" id="durasiPemesanan" name="durasi_pemesanan" oninput="calculateTotal()" required>
+                            <input type="number" class="form-control" id="durasiPemesanan" name="durasi_pemesanan" required>
                         </div>
                         <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="breakfast" name="breakfast" onclick="calculateTotal()">
+                            <input type="checkbox" class="form-check-input" id="breakfast" name="breakfast" >
                             <label class="form-check-label" for="breakfast">Tambah Breakfast (+ Rp 80.000)</label>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3" id="hargaContainer" style="display: none;">
                             <label for="totalHarga" class="form-label">Total Harga</label>
                             <input type="text" class="form-control" id="totalHarga" readonly>
                         </div>
+                        <button type="button" name="hitung" class="btn btn-primary" id="hitungHarga" onclick="calculateTotal()">Hitung Total Harga</button>
                         <button type="submit" name="kirim" class="btn btn-primary">Kirim</button>
                     </form>
                 </div>
