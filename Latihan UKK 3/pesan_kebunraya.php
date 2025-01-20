@@ -12,7 +12,7 @@ if (isset($_POST['kirim'])) {
 
   // Query untuk menyimpan data ke database
   $queryInsert = "INSERT INTO pemesanan (nama, nomor_identitas, nomor_hp, id_tempat_wisata, tanggal_kunjungan, jumlah_pengunjung, pengunjung_anak, status)
-  VALUES ('$nama', '$nomor_identitas', '$nomor_hp', '$id_tempat_wisata', '$tanggal_kunjungan', '$jumlah_pengunjung', '$pengunjung_anak')";
+  VALUES ('$nama', '$nomor_identitas', '$nomor_hp', '$id_tempat_wisata', '$tanggal_kunjungan', '$jumlah_pengunjung', '$pengunjung_anak', 'Belum Terverifikasi')";
 
 }
 ?>
