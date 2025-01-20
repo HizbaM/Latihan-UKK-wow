@@ -1,5 +1,20 @@
 <?php
 require_once 'koneksi.php';
+
+if (isset($_POST['kirim'])) {
+  $nama = $_POST['nama'];
+  $nomor_identitas = $_POST['nomor_identitas'];
+  $nomor_hp = $_POST['nomor_hp'];
+  $id_tempat_wisata = $_POST['id_tempat_wisata'];
+  $tanggal_kunjungan = $_POST['tanggal_kunjungan'];
+  $jumlah_pengunjung = $_POST['jumlah_pengunjung'];
+  $pengunjung_anak = $_POST['pengunjung_anak'];
+
+  // Query untuk menyimpan data ke database
+  $queryInsert = "INSERT INTO pemesanan (nama, nomor_identitas, nomor_hp, id_tempat_wisata, tanggal_kunjungan, jumlah_pengunjung, pengunjung_anak, status)
+  VALUES ('$nama', '$nomor_identitas', '$nomor_hp', '$id_tempat_wisata', '$tanggal_kunjungan', '$jumlah_pengunjung', '$pengunjung_anak')";
+
+}
 ?>
 
 <!doctype html>
@@ -57,24 +72,23 @@ require_once 'koneksi.php';
                 </div>
                 <!-- Jumlah Pengunjung -->
                 <div class="mb-3">
-                  <label for="jumlahPengunjung" class="form-label">Jumlah Pengunjung</label>
-                  <select class="form-select" id="jumlahPengunjung" name="jumlah_pengunjung" required>
-                    <option selected>-- Pilih Jumlah Pengunjung --</option>
-                    <?php for ($i = 1; $i <= 10; $i++) : ?>
-                      <option value="<?= $i; ?>"><?= $i; ?> Orang</option>
-                    <?php endfor; ?>
-                  </select>
-                </div>
-                <!-- Pengunjung Anak -->
-                <div class="mb-3">
-                  <label for="pengunjungAnak" class="form-label">Pengunjung Anak</label>
-                  <select class="form-select" id="pengunjungAnak" name="pengunjung_anak" required>
-                    <option selected>-- Pilih Jumlah Pengunjung Anak --</option>
-                    <?php for ($i = 0; $i <= 10; $i++) : ?>
-                      <option value="<?= $i; ?>"><?= $i; ?> Anak</option>
-                    <?php endfor; ?>
-                  </select>
-                </div>
+                    <label for="jumlahPengunjung" class="form-label">Jumlah Pengunjung</label>
+                    <select class="form-select" id="jumlahPengunjung" name="jumlah_pengunjung" required>
+                      <option selected>-- Pilih Jumlah Pengunjung --</option>
+                      <?php for ($i = 1; $i <= 10; $i++) : ?>
+                        <option value="<?= $i; ?>"><?= $i; ?> Orang</option>
+                      <?php endfor; ?>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="pengunjungAnak" class="form-label">Pengunjung Anak</label>
+                    <select class="form-select" id="pengunjungAnak" name="pengunjung_anak" required>
+                      <option selected>-- Pilih Jumlah Pengunjung Anak --</option>
+                      <?php for ($i = 0; $i <= 10; $i++) : ?>
+                        <option value="<?= $i; ?>"><?= $i; ?> Anak</option>
+                      <?php endfor; ?>
+                    </select>
+              </div>
                 <!-- Tombol Kirim -->
                 <button type="submit" name="kirim" class="btn btn-primary">Kirim</button>
               </form>
